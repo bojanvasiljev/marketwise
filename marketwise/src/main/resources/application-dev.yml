@@ -1,0 +1,19 @@
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/marketwise
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10        # max connections in pool
+      minimum-idle: 2              # minimum idle connections
+      idle-timeout: 30000          # milliseconds a connection can stay idle before being retired
+      connection-timeout: 30000    # max milliseconds to wait for a connection from pool
+      max-lifetime: 1800000        # max lifetime of a connection in ms
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.jdbc.core.JdbcTemplate: DEBUG
+    com.marketwise: DEBUG
