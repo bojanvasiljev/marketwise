@@ -1,8 +1,12 @@
 package com.marketwise.marketwise.repository;
 
+import com.marketwise.marketwise.model.Season;
 import com.marketwise.marketwise.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class UserRepository {
@@ -13,13 +17,21 @@ public class UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private static final RowMapper<User> userMapper = (rs, rowNum) -> new User(
+            rs.getLong("id"),
+            rs.getString("username"),
+            rs.getString("email"),
+            rs.getString("password_hash"),
+            rs.getTimestamp("created_at").toInstant()
+    );
+
     public User createUser(User user) {
         String sql = "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?) RETURNING id, created_at";
         return jdbcTemplate.queryForObject(sql,
             new Object[]{user.getUsername(), user.getEmail(), user.getPasswordHash()},
             (rs, rowNum) -> {
                 user.setId(rs.getLong("id"));
-                user.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                user.setCreatedAt(rs.getTimestamp("created_at").toInstant());
                 return user;
             });
     }
@@ -34,9 +46,14 @@ public class UserRepository {
                     u.setUsername(rs.getString("username"));
                     u.setEmail(rs.getString("email"));
                     u.setPasswordHash(rs.getString("password_hash"));
-                    u.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                    u.setCreatedAt(rs.getTimestamp("created_at").toInstant());
                     return u;
                 });
+    }
+
+    public List<User> getUsers() {
+        String sql = "SELECT id, username, email, password_hash, created_at FROM users";
+        return jdbcTemplate.query(sql, userMapper);
     }
 
     public void updateUser(User user) {

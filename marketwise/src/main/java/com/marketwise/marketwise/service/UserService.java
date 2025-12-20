@@ -2,6 +2,9 @@ package com.marketwise.marketwise.service;
 
 import com.marketwise.marketwise.model.User;
 import com.marketwise.marketwise.repository.UserRepository;
+
+import java.util.List;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,10 @@ public class UserService {
     public User createUser(User user) {
         user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
         return userRepository.createUser(user);
+    }
+
+    public List<User> getUsers() {
+        return userRepository.getUsers();
     }
 
     public User getUserById(Long id) {
