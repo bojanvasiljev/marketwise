@@ -16,6 +16,6 @@ public class LeaderboardService {
   }
 
   public List<UserLeaderboard> getSeasonLeaderboard(Long seasonId, int limit) {
-    return leaderboardRepository.getSeasonLeaderboard(seasonId, limit);
+    return this.leaderboardRepository.getSeasonLeaderboard(seasonId, limit);
   }
 }

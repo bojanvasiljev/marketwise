@@ -26,15 +26,15 @@ public class UserRepository {
   );
 
   public User getUserByUserId(Long userId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_USER_BY_ID, new Object[] { userId }, userRowMapper);
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.GET_USER_BY_ID, new Object[] { userId }, userRowMapper);
   }
 
   public List<User> getUsers() {
-    return jdbcTemplate.query(MarketWiseSQL.GET_USERS, userRowMapper);
+    return this.jdbcTemplate.query(MarketWiseSQL.GET_USERS, userRowMapper);
   }
 
   public User createUser(User user) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_USER,
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_USER,
         new Object[] { user.getUsername(), user.getEmail(), user.getPasswordHash() },
         (rs, rowNum) -> {
           user.setId(rs.getLong("id"));
@@ -44,10 +44,10 @@ public class UserRepository {
   }
 
   public void updateUser(User user) {
-    jdbcTemplate.update(MarketWiseSQL.UPDATE_USER, user.getEmail(), user.getPasswordHash(), user.getId());
+    this.jdbcTemplate.update(MarketWiseSQL.UPDATE_USER, user.getEmail(), user.getPasswordHash(), user.getId());
   }
 
   public void deleteUser(Long userId) {
-    jdbcTemplate.update(MarketWiseSQL.DELETE_USER, userId);
+    this.jdbcTemplate.update(MarketWiseSQL.DELETE_USER, userId);
   }
 }

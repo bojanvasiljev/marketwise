@@ -27,11 +27,11 @@ public class PortfolioPositionRepository {
   );
 
   public List<PortfolioPosition> getPortfolioPositionsForPortfolio(Long portfolioId) {
-    return jdbcTemplate.query(MarketWiseSQL.GET_PORTFOLIO_POSITIONS_BY_PORTFOLIO, new Object[] { portfolioId }, portfolioPositionRowMapper);
+    return this.jdbcTemplate.query(MarketWiseSQL.GET_PORTFOLIO_POSITIONS_BY_PORTFOLIO, new Object[] { portfolioId }, portfolioPositionRowMapper);
   }
 
   public PortfolioPosition createPortfolioPosition(PortfolioPosition portfolioPosition) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_PORTFOLIO_POSITION,
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_PORTFOLIO_POSITION,
         new Object[] { portfolioPosition.getPortfolioId(), portfolioPosition.getStockSymbol(), portfolioPosition.getShares(), portfolioPosition.getAveragePrice() },
         (rs, rowNum) -> {
           portfolioPosition.setId(rs.getLong("id"));
@@ -41,13 +41,13 @@ public class PortfolioPositionRepository {
 
   public PortfolioPosition addOrUpdatePortfolioPosition(PortfolioPosition portfolioPosition) {
     // Check if position exists
-    Integer count = jdbcTemplate.queryForObject(MarketWiseSQL.CHECK_PORTFOLIO_POSITION, new Object[] { portfolioPosition.getPortfolioId(), portfolioPosition.getStockSymbol() }, Integer.class);
+    Integer count = this.jdbcTemplate.queryForObject(MarketWiseSQL.CHECK_PORTFOLIO_POSITION, new Object[] { portfolioPosition.getPortfolioId(), portfolioPosition.getStockSymbol() }, Integer.class);
 
     if (count != null && count > 0) { // Update existing
-      jdbcTemplate.update(MarketWiseSQL.UPDATE_PORTFOLIO_POSITION, portfolioPosition.getShares(), portfolioPosition.getAveragePrice(), portfolioPosition.getPortfolioId(), portfolioPosition.getStockSymbol());
+      this.jdbcTemplate.update(MarketWiseSQL.UPDATE_PORTFOLIO_POSITION, portfolioPosition.getShares(), portfolioPosition.getAveragePrice(), portfolioPosition.getPortfolioId(), portfolioPosition.getStockSymbol());
     }
     else { // Insert new
-      Long id = jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_PORTFOLIO_POSITION,
+      Long id = this.jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_PORTFOLIO_POSITION,
           new Object[] { portfolioPosition.getPortfolioId(), portfolioPosition.getStockSymbol(), portfolioPosition.getShares(), portfolioPosition.getAveragePrice() },
           Long.class);
 
@@ -58,10 +58,10 @@ public class PortfolioPositionRepository {
   }
 
   public void updatePortfolioPosition(PortfolioPosition portfolioPosition) {
-    jdbcTemplate.update(MarketWiseSQL.UPDATE_PORTFOLIO_POSITION_SHARES, portfolioPosition.getShares(), portfolioPosition.getAveragePrice(), portfolioPosition.getId());
+    this.jdbcTemplate.update(MarketWiseSQL.UPDATE_PORTFOLIO_POSITION_SHARES, portfolioPosition.getShares(), portfolioPosition.getAveragePrice(), portfolioPosition.getId());
   }
 
   public void deletePortfolioPosition(Long portfolioPositionId) {
-    jdbcTemplate.update(MarketWiseSQL.DELETE_PORTFOLIO_POSITION, portfolioPositionId);
+    this.jdbcTemplate.update(MarketWiseSQL.DELETE_PORTFOLIO_POSITION, portfolioPositionId);
   }
 }

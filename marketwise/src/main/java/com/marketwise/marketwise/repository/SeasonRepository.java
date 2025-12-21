@@ -28,15 +28,15 @@ public class SeasonRepository {
   );
 
   public Season getSeasonById(Long seasonId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_SEASON_BY_ID, new Object[] { seasonId }, seasonRowMapper);
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.GET_SEASON_BY_ID, new Object[] { seasonId }, seasonRowMapper);
   }
 
   public List<Season> getAllSeasons() {
-    return jdbcTemplate.query(MarketWiseSQL.GET_SEASONS, seasonRowMapper);
+    return this.jdbcTemplate.query(MarketWiseSQL.GET_SEASONS, seasonRowMapper);
   }
 
   public Season createSeason(Season season) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_SEASON,
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_SEASON,
         new Object[] { season.getName(), Timestamp.from(season.getStartDate()), Timestamp.from(season.getEndDate()), season.getStartingCash() }, (rs, rowNum) -> {
           season.setId(rs.getLong("id"));
           season.setCreateDate(rs.getTimestamp("create_date").toInstant());
@@ -45,10 +45,10 @@ public class SeasonRepository {
   }
 
   public int updateSeason(Season season) {
-    return jdbcTemplate.update(MarketWiseSQL.UPDATE_SEASON, season.getName(), Timestamp.from(season.getStartDate()), Timestamp.from(season.getEndDate()), season.getId());
+    return this.jdbcTemplate.update(MarketWiseSQL.UPDATE_SEASON, season.getName(), Timestamp.from(season.getStartDate()), Timestamp.from(season.getEndDate()), season.getId());
   }
 
   public void deleteSeason(Long seasonId) {
-    jdbcTemplate.update(MarketWiseSQL.DELETE_SEASON, seasonId);
+    this.jdbcTemplate.update(MarketWiseSQL.DELETE_SEASON, seasonId);
   }
 }

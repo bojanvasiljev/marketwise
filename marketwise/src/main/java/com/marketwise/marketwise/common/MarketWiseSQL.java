@@ -26,7 +26,7 @@ public class MarketWiseSQL {
       "user_id = ? " +
       "AND season_id = ?";
   
-  public static String CREATE_ACCOUNT = "INSERT INTO accounts (user_id, season_id, cash_balance, create_date) VALUES (?, ?, ?, NOW()) RETURNING id, create_date";
+  public static String CREATE_ACCOUNT = "INSERT INTO accounts (user_id, season_id, cash_balance) VALUES (?, ?, ?) RETURNING id, create_date";
 
   public static String UPDATE_CASH_BALANCE = "UPDATE accounts SET cash_balance = ? WHERE id = ?";
 
@@ -101,7 +101,7 @@ public class MarketWiseSQL {
     "WHERE " +
       "portfolio_id = ?";
 
-  public static String CREATE_TRADE = "INSERT INTO trades (portfolio_id, stock_symbol, shares, price, trade_type, create_date) VALUES (?, ?, ?, ?, ?, NOW()) RETURNING id, create_date";
+  public static String CREATE_TRADE = "INSERT INTO trades (portfolio_id, stock_symbol, shares, price, trade_type) VALUES (?, ?, ?, ?, ?) RETURNING id, create_date";
 
   // Portfolio SQL queries
   public static String GET_PORTFOLIO_BY_USER = 
@@ -124,9 +124,9 @@ public class MarketWiseSQL {
     "WHERE " +
       "id = ?";
 
-  public static String CREATE_PORTFOLIO = "INSERT INTO portfolios (user_id, cash_balance, create_date) VALUES (?, ?, NOW()) RETURNING id, create_date, cash_balance";
+  public static String CREATE_PORTFOLIO = "INSERT INTO portfolios (user_id, cash_balance) VALUES (?, ?) RETURNING id, create_date, cash_balance";
 
-  public static String CREATE_PORTFOLIO_NO_CASH = "INSERT INTO portfolios (user_id, create_date) VALUES (?, NOW()) RETURNING id, create_date, cash_balance";
+  public static String CREATE_PORTFOLIO_NO_CASH = "INSERT INTO portfolios (user_id) VALUES (?) RETURNING id, create_date, cash_balance";
 
   public static String UPDATE_PORTFOLIO_CASH_BALANCE = "UPDATE portfolios SET cash_balance = ? WHERE id = ?";
 

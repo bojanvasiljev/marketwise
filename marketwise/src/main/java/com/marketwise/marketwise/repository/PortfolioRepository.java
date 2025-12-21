@@ -25,11 +25,11 @@ public class PortfolioRepository {
   );
 
   public Portfolio getPortfolioByUser(Long userId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_USER, new Object[] { userId }, portfolioRowMapper);
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_USER, new Object[] { userId }, portfolioRowMapper);
   }
 
   public Portfolio getPortfolioById(Long portfolioId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_PORTFOLIO, new Object[] { portfolioId }, portfolioRowMapper);
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_PORTFOLIO, new Object[] { portfolioId }, portfolioRowMapper);
   }
 
   public Portfolio createPortfolio(Portfolio portfolio) {
@@ -45,7 +45,7 @@ public class PortfolioRepository {
       params = new Object[] { portfolio.getUserId() };
     }
 
-    return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> {
+    return this.jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> {
       portfolio.setId(rs.getLong("id"));
       portfolio.setCreateDate(rs.getTimestamp("create_date").toInstant());
       portfolio.setCashBalance(rs.getBigDecimal("cash_balance"));
@@ -54,6 +54,6 @@ public class PortfolioRepository {
   }
 
   public void updateCashBalance(Long portfolioId, BigDecimal newBalance) {
-    jdbcTemplate.update(MarketWiseSQL.UPDATE_PORTFOLIO_CASH_BALANCE, newBalance, portfolioId);
+    this.jdbcTemplate.update(MarketWiseSQL.UPDATE_PORTFOLIO_CASH_BALANCE, newBalance, portfolioId);
   }
 }

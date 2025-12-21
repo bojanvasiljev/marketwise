@@ -20,24 +20,24 @@ public class UserService {
   }
 
   public User getUserByUserId(Long userId) {
-    return userRepository.getUserByUserId(userId);
+    return this.userRepository.getUserByUserId(userId);
   }
 
   public List<User> getUsers() {
-    return userRepository.getUsers();
+    return this.userRepository.getUsers();
   }
 
   public User createUser(User user) {
     user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
-    return userRepository.createUser(user);
+    return this.userRepository.createUser(user);
   }
 
   public void updateUser(User user) {
     user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
-    userRepository.updateUser(user);
+    this.userRepository.updateUser(user);
   }
 
   public void deleteUser(Long userId) {
-    userRepository.deleteUser(userId);
+    this.userRepository.deleteUser(userId);
   }
 }

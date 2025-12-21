@@ -16,22 +16,22 @@ public class PortfolioPositionService {
   }
 
   public List<PortfolioPosition> getPortfolioPositionsForPortfolio(Long portfolioId) {
-    return portfolioPositionRepository.getPortfolioPositionsForPortfolio(portfolioId);
+    return this.portfolioPositionRepository.getPortfolioPositionsForPortfolio(portfolioId);
   }
 
   public PortfolioPosition createPortfolioPosition(PortfolioPosition portfolioPosition) {
-    return portfolioPositionRepository.createPortfolioPosition(portfolioPosition);
+    return this.portfolioPositionRepository.createPortfolioPosition(portfolioPosition);
   }
 
   public PortfolioPosition addOrUpdatePortfolioPosition(PortfolioPosition portfolioPosition) {
-    return portfolioPositionRepository.addOrUpdatePortfolioPosition(portfolioPosition);
+    return this.portfolioPositionRepository.addOrUpdatePortfolioPosition(portfolioPosition);
   }
 
   public void updatePortfolioPosition(PortfolioPosition portfolioPosition) {
-    portfolioPositionRepository.updatePortfolioPosition(portfolioPosition);
+    this.portfolioPositionRepository.updatePortfolioPosition(portfolioPosition);
   }
 
   public void deletePortfolioPosition(Long portfolioPositionId) {
-    portfolioPositionRepository.deletePortfolioPosition(portfolioPositionId);
+    this.portfolioPositionRepository.deletePortfolioPosition(portfolioPositionId);
   }
 }

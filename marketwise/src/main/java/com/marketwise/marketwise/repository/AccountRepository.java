@@ -26,15 +26,15 @@ public class AccountRepository {
   );
 
   public List<Account> getAccountsBySeason(Long seasonId) {
-    return jdbcTemplate.query(MarketWiseSQL.GET_ACCOUNTS_BY_SEASON, new Object[] { seasonId }, accountRowMapper);
+    return this.jdbcTemplate.query(MarketWiseSQL.GET_ACCOUNTS_BY_SEASON, new Object[] { seasonId }, accountRowMapper);
   }
 
   public Account getAccountByUserAndSeason(Long userId, Long seasonId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_ACCOUNT_BY_USER_AND_SEASON, new Object[] { userId, seasonId }, accountRowMapper);
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.GET_ACCOUNT_BY_USER_AND_SEASON, new Object[] { userId, seasonId }, accountRowMapper);
   }
 
   public Account createAccount(Account account) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_ACCOUNT,
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_ACCOUNT,
         new Object[] { account.getUserId(), account.getSeasonId(), account.getCashBalance() },
         (rs, rowNum) -> {
           account.setId(rs.getLong("id"));
@@ -44,6 +44,6 @@ public class AccountRepository {
   }
 
   public void updateCashBalance(Long accountId, java.math.BigDecimal newBalance) {
-    jdbcTemplate.update(MarketWiseSQL.UPDATE_CASH_BALANCE, newBalance, accountId);
+    this.jdbcTemplate.update(MarketWiseSQL.UPDATE_CASH_BALANCE, newBalance, accountId);
   }
 }

@@ -28,11 +28,11 @@ public class TradeRepository {
   );
 
   public List<Trade> getTradesByPortfolio(Long portfolioId) {
-    return jdbcTemplate.query(MarketWiseSQL.GET_TRADES_BY_PORTFOLIO, new Object[] { portfolioId }, tradeRowMapper);
+    return this.jdbcTemplate.query(MarketWiseSQL.GET_TRADES_BY_PORTFOLIO, new Object[] { portfolioId }, tradeRowMapper);
   }
 
   public Trade createTrade(Trade trade) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_TRADE,
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_TRADE,
         new Object[] { trade.getPortfolioId(), trade.getStockSymbol(), trade.getShares(), trade.getPrice(), trade.getTradeType() },
         (rs, rowNum) -> {
           trade.setId(rs.getLong("id"));

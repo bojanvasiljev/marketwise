@@ -17,7 +17,7 @@ public class LeaderboardRepository {
   }
 
   public List<UserLeaderboard> getSeasonLeaderboard(Long seasonId, int limit) {
-    return jdbcTemplate.query(MarketWiseSQL.GET_LEADERBOARD_BY_SEASON,
+    return this.jdbcTemplate.query(MarketWiseSQL.GET_LEADERBOARD_BY_SEASON,
         new Object[] {seasonId, limit},
         (rs, rowNum) -> new UserLeaderboard(
             rs.getLong("user_id"),
