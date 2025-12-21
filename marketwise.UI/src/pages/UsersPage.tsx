@@ -51,7 +51,7 @@ const UsersPage = () => {
               <th className="px-6 py-3 border-b">ID</th>
               <th className="px-6 py-3 border-b">Username</th>
               <th className="px-6 py-3 border-b">Email</th>
-              <th className="px-6 py-3 border-b">Created At</th>
+              <th className="px-6 py-3 border-b">Create Date</th>
             </tr>
           </thead>
           <tbody>
