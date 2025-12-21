@@ -9,13 +9,13 @@ import java.util.List;
 @Service
 public class LeaderboardService {
 
-    private final LeaderboardRepository repository;
+  private final LeaderboardRepository leaderboardRepository;
 
-    public LeaderboardService(LeaderboardRepository repository) {
-        this.repository = repository;
-    }
+  public LeaderboardService(LeaderboardRepository leaderboardRepository) {
+      this.leaderboardRepository = leaderboardRepository;
+  }
 
-    public List<UserLeaderboard> getSeasonLeaderboard(Long seasonId, int limit) {
-        return repository.getSeasonLeaderboard(seasonId, limit);
-    }
+  public List<UserLeaderboard> getSeasonLeaderboard(Long seasonId, int limit) {
+    return leaderboardRepository.getSeasonLeaderboard(seasonId, limit);
+  }
 }

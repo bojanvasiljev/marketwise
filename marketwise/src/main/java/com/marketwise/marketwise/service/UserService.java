@@ -12,32 +12,32 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+  public UserService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
-    public User createUser(User user) {
-        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
-        return userRepository.createUser(user);
-    }
+  public User getUserById(Long id) {
+    return userRepository.getUserById(id);
+  }
 
-    public List<User> getUsers() {
-        return userRepository.getUsers();
-    }
+  public List<User> getUsers() {
+    return userRepository.getUsers();
+  }
 
-    public User getUserById(Long id) {
-        return userRepository.getUserById(id);
-    }
+  public User createUser(User user) {
+    user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+    return userRepository.createUser(user);
+  }
 
-    public void updateUser(User user) {
-        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
-        userRepository.updateUser(user);
-    }
+  public void updateUser(User user) {
+    user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+    userRepository.updateUser(user);
+  }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteUser(id);
-    }
+  public void deleteUser(Long id) {
+    userRepository.deleteUser(id);
+  }
 }

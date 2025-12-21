@@ -19,45 +19,45 @@ import java.util.List;
 @Tag(name = "Seasons", description = "Operations related to Seasons")
 public class SeasonController {
 
-    private final SeasonService seasonService;
+  private final SeasonService seasonService;
 
-    public SeasonController(SeasonService seasonService) {
-        this.seasonService = seasonService;
-    }
+  public SeasonController(SeasonService seasonService) {
+    this.seasonService = seasonService;
+  }
 
-    @Operation(summary = "Create a new season")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Season created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input")
-    })
-    @PostMapping
-    public ResponseEntity<Season> createSeason(@RequestBody Season season) {
-        return new ResponseEntity<>(seasonService.createSeason(season), HttpStatus.CREATED);
-    }
+  @Operation(summary = "Get season by ID")
+  @GetMapping("/{seasonId}")
+  public ResponseEntity<Season> getSeasonById(@PathVariable Long seasonId) {
+    return ResponseEntity.ok(seasonService.getSeasonById(seasonId));
+  }
 
-    @Operation(summary = "Get season by ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<Season> getSeasonById(@PathVariable Long id) {
-        return ResponseEntity.ok(seasonService.getSeasonById(id));
-    }
+  @Operation(summary = "Get all seasons")
+  @GetMapping
+  public ResponseEntity<List<Season>> getAllSeasons() {
+    return ResponseEntity.ok(seasonService.getAllSeasons());
+  }
 
-    @Operation(summary = "Get all seasons")
-    @GetMapping
-    public ResponseEntity<List<Season>> getAllSeasons() {
-        return ResponseEntity.ok(seasonService.getAllSeasons());
-    }
+  @Operation(summary = "Create a new season")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "201", description = "Season created successfully"),
+      @ApiResponse(responseCode = "400", description = "Invalid input")
+  })
+  @PostMapping
+  public ResponseEntity<Season> createSeason(@RequestBody Season season) {
+    return new ResponseEntity<>(seasonService.createSeason(season), HttpStatus.CREATED);
+  }
 
-    @Operation(summary = "Update an existing season")
-    @PutMapping("/{id}")
-    public ResponseEntity<Season> updateSeason(@PathVariable Long id, @RequestBody Season season) {
-        season.setId(id);
-        return ResponseEntity.ok(seasonService.updateSeason(season));
-    }
+  @Operation(summary = "Update an existing season")
+  @PutMapping("/{seasonId}")
+  public ResponseEntity<Season> updateSeason(@PathVariable Long seasonId, @RequestBody Season season) {
+    season.setId(seasonId);
+    return ResponseEntity.ok(seasonService.updateSeason(season));
+  }
 
-    @Operation(summary = "Delete a season")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSeason(@PathVariable Long id) {
-        seasonService.deleteSeason(id);
-        return ResponseEntity.noContent().build();
-    }
+  @Operation(summary = "Delete a season")
+  @DeleteMapping("/{seasonId}")
+  public ResponseEntity<Void> deleteSeason(@PathVariable Long seasonId) {
+    seasonService.deleteSeason(seasonId);
+    return ResponseEntity.noContent().build();
+  }
 }

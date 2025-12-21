@@ -13,21 +13,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/leaderboard")
-@Tag(name = "Leaderboardss", description = "Operations related to Leaderboards")
+@Tag(name = "Leaderboards", description = "Operations related to Leaderboards")
 public class LeaderboardController {
 
-    private final LeaderboardService service;
+  private final LeaderboardService leaderboardService;
 
-    public LeaderboardController(LeaderboardService service) {
-        this.service = service;
-    }
+  public LeaderboardController(LeaderboardService leaderboardService) {
+    this.leaderboardService = leaderboardService;
+  }
 
-    @Operation(summary = "Get leader board for a season")
-    @GetMapping("/season/{seasonId}")
-    public ResponseEntity<List<UserLeaderboard>> getSeasonLeaderboard(
-            @PathVariable Long seasonId,
-            @RequestParam(defaultValue = "10") int limit
-    ) {
-        return ResponseEntity.ok(service.getSeasonLeaderboard(seasonId, limit));
-    }
+  @Operation(summary = "Get leader board for a season")
+  @GetMapping("/season/{seasonId}")
+  public ResponseEntity<List<UserLeaderboard>> getSeasonLeaderboard(@PathVariable Long seasonId, @RequestParam(defaultValue = "10") int limit) {
+    return ResponseEntity.ok(leaderboardService.getSeasonLeaderboard(seasonId, limit));
+  }
 }

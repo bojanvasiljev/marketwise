@@ -1,6 +1,6 @@
 package com.marketwise.marketwise.repository;
 
-import com.marketwise.marketwise.model.Season;
+import com.marketwise.marketwise.common.MarketWiseSQL;
 import com.marketwise.marketwise.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,58 +11,52 @@ import java.util.List;
 @Repository
 public class UserRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+  private final JdbcTemplate jdbcTemplate;
 
-    public UserRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+  public UserRepository(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+  }
 
-    private static final RowMapper<User> userMapper = (rs, rowNum) -> new User(
-            rs.getLong("id"),
-            rs.getString("username"),
-            rs.getString("email"),
-            rs.getString("password_hash"),
-            rs.getTimestamp("created_at").toInstant()
-    );
+  private static final RowMapper<User> userMapper = (rs, rowNum) -> new User(
+      rs.getLong("id"),
+      rs.getString("username"),
+      rs.getString("email"),
+      rs.getString("password_hash"),
+      rs.getTimestamp("created_at").toInstant());
 
-    public User createUser(User user) {
-        String sql = "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?) RETURNING id, created_at";
-        return jdbcTemplate.queryForObject(sql,
-            new Object[]{user.getUsername(), user.getEmail(), user.getPasswordHash()},
-            (rs, rowNum) -> {
-                user.setId(rs.getLong("id"));
-                user.setCreatedAt(rs.getTimestamp("created_at").toInstant());
-                return user;
-            });
-    }
+  public User getUserById(Long id) {
+    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_USER_BY_ID,
+        new Object[] {id},
+        (rs, rowNum) -> {
+          User u = new User();
+          u.setId(rs.getLong("id"));
+          u.setUsername(rs.getString("username"));
+          u.setEmail(rs.getString("email"));
+          u.setPasswordHash(rs.getString("password_hash"));
+          u.setCreatedAt(rs.getTimestamp("created_at").toInstant());
+          return u;
+        });
+  }
 
-    public User getUserById(Long id) {
-        String sql = "SELECT id, username, email, password_hash, created_at FROM users WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql,
-                new Object[]{id},
-                (rs, rowNum) -> {
-                    User u = new User();
-                    u.setId(rs.getLong("id"));
-                    u.setUsername(rs.getString("username"));
-                    u.setEmail(rs.getString("email"));
-                    u.setPasswordHash(rs.getString("password_hash"));
-                    u.setCreatedAt(rs.getTimestamp("created_at").toInstant());
-                    return u;
-                });
-    }
+  public List<User> getUsers() {
+    return jdbcTemplate.query(MarketWiseSQL.GET_USERS, userMapper);
+  }
 
-    public List<User> getUsers() {
-        String sql = "SELECT id, username, email, password_hash, created_at FROM users";
-        return jdbcTemplate.query(sql, userMapper);
-    }
+  public User createUser(User user) {
+    return jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_USER,
+        new Object[] {user.getUsername(), user.getEmail(), user.getPasswordHash()},
+        (rs, rowNum) -> {
+          user.setId(rs.getLong("id"));
+          user.setCreatedAt(rs.getTimestamp("created_at").toInstant());
+          return user;
+        });
+  }
 
-    public void updateUser(User user) {
-        String sql = "UPDATE users SET email, password = ? WHERE id = ?";
-        jdbcTemplate.update(sql, user.getEmail(), user.getPasswordHash(), user.getId());
-    }
+  public void updateUser(User user) {
+    jdbcTemplate.update(MarketWiseSQL.UPDATE_USER, user.getEmail(), user.getPasswordHash(), user.getId());
+  }
 
-    public void deleteUser(Long id) {
-        String sql = "DELETE FROM users WHERE id = ?";
-        jdbcTemplate.update(sql, id);
-    }
+  public void deleteUser(Long id) {
+    jdbcTemplate.update(MarketWiseSQL.DELETE_USER, id);
+  }
 }

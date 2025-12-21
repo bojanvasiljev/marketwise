@@ -8,25 +8,30 @@ import java.util.List;
 
 @Service
 public class PortfolioPositionService {
-    private final PortfolioPositionRepository repository;
 
-    public PortfolioPositionService(PortfolioPositionRepository repository) {
-        this.repository = repository;
-    }
+  private final PortfolioPositionRepository portfolioPositionRepository;
 
-    public PortfolioPosition createPosition(PortfolioPosition position) {
-        return repository.createPosition(position);
-    }
+  public PortfolioPositionService(PortfolioPositionRepository portfolioPositionRepository) {
+    this.portfolioPositionRepository = portfolioPositionRepository;
+  }
 
-    public List<PortfolioPosition> getPositionsForPortfolio(Long portfolioId) {
-        return repository.getPositionsByPortfolioId(portfolioId);
-    }
+  public List<PortfolioPosition> getPortfolioPositionsForPortfolio(Long portfolioId) {
+    return portfolioPositionRepository.getPortfolioPositionsForPortfolio(portfolioId);
+  }
 
-    public void updatePosition(PortfolioPosition position) {
-        repository.updatePosition(position);
-    }
+  public PortfolioPosition createPortfolioPosition(PortfolioPosition portfolioPosition) {
+    return portfolioPositionRepository.createPortfolioPosition(portfolioPosition);
+  }
 
-    public void deletePosition(Long id) {
-        repository.deletePosition(id);
-    }
+  public PortfolioPosition addOrUpdatePortfolioPosition(PortfolioPosition portfolioPosition) {
+    return portfolioPositionRepository.addOrUpdatePortfolioPosition(portfolioPosition);
+  }
+
+  public void updatePortfolioPosition(PortfolioPosition portfolioPosition) {
+    portfolioPositionRepository.updatePortfolioPosition(portfolioPosition);
+  }
+
+  public void deletePortfolioPosition(Long id) {
+    portfolioPositionRepository.deletePortfolioPosition(id);
+  }
 }

@@ -18,25 +18,26 @@ import java.util.List;
 @RequestMapping("/api/trades")
 @Tag(name = "Trades", description = "Operations related to Trades")
 public class TradeController {
+  
   private final TradeService service;
 
   public TradeController(TradeService service) {
     this.service = service;
   }
 
-  @Operation(summary = "Create a new trade")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Trade created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input")
-    })
-  @PostMapping
-  public ResponseEntity<Trade> executeTrade(@RequestBody Trade trade) {
-    return new ResponseEntity<>(service.executeTrade(trade), HttpStatus.CREATED);
-  }
-
   @Operation(summary = "Get all trades for a portfolio")
   @GetMapping("/portfolio/{portfolioId}")
   public ResponseEntity<List<Trade>> getTrades(@PathVariable Long portfolioId) {
     return ResponseEntity.ok(service.getTradesByPortfolio(portfolioId));
+  }
+
+  @Operation(summary = "Create a new trade")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Trade created successfully"),
+      @ApiResponse(responseCode = "400", description = "Invalid input")
+  })
+  @PostMapping
+  public ResponseEntity<Trade> executeTrade(@RequestBody Trade trade) {
+    return new ResponseEntity<>(service.executeTrade(trade), HttpStatus.CREATED);
   }
 }
