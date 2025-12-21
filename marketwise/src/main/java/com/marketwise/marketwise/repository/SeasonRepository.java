@@ -24,19 +24,11 @@ public class SeasonRepository {
       rs.getTimestamp("start_date").toInstant(),
       rs.getTimestamp("end_date").toInstant(),
       rs.getBigDecimal("starting_cash"),
-      rs.getTimestamp("create_date").toInstant());
+      rs.getTimestamp("create_date").toInstant()
+  );
 
   public Season getSeasonById(Long seasonId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_SEASON_BY_ID, new Object[] { seasonId }, (rs, rowNum) -> {
-      Season season = new Season();
-      season.setId(rs.getLong("id"));
-      season.setName(rs.getString("name"));
-      season.setStartDate(rs.getTimestamp("start_date").toInstant());
-      season.setEndDate(rs.getTimestamp("end_date").toInstant());
-      season.setStartingCash(rs.getBigDecimal("starting_cash"));
-      season.setCreateDate(rs.getTimestamp("create_date").toInstant());
-      return season;
-    });
+    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_SEASON_BY_ID, new Object[] { seasonId }, seasonRowMapper);
   }
 
   public List<Season> getAllSeasons() {

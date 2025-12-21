@@ -17,29 +17,20 @@ public class UserRepository {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  private static final RowMapper<User> userMapper = (rs, rowNum) -> new User(
+  private static final RowMapper<User> userRowMapper = (rs, rowNum) -> new User(
       rs.getLong("id"),
       rs.getString("username"),
       rs.getString("email"),
       rs.getString("password_hash"),
-      rs.getTimestamp("create_date").toInstant());
+      rs.getTimestamp("create_date").toInstant()
+  );
 
   public User getUserByUserId(Long userId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_USER_BY_ID,
-        new Object[] { userId },
-        (rs, rowNum) -> {
-          User user = new User();
-          user.setId(rs.getLong("id"));
-          user.setUsername(rs.getString("username"));
-          user.setEmail(rs.getString("email"));
-          user.setPasswordHash(rs.getString("password_hash"));
-          user.setCreateDate(rs.getTimestamp("create_date").toInstant());
-          return user;
-        });
+    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_USER_BY_ID, new Object[] { userId }, userRowMapper);
   }
 
   public List<User> getUsers() {
-    return jdbcTemplate.query(MarketWiseSQL.GET_USERS, userMapper);
+    return jdbcTemplate.query(MarketWiseSQL.GET_USERS, userRowMapper);
   }
 
   public User createUser(User user) {

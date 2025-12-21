@@ -17,20 +17,18 @@ public class TradeRepository {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  private final RowMapper<Trade> tradeMapper = (rs, rowNum) -> {
-    Trade trade = new Trade();
-    trade.setId(rs.getLong("id"));
-    trade.setPortfolioId(rs.getLong("portfolio_id"));
-    trade.setStockSymbol(rs.getString("stock_symbol"));
-    trade.setShares(rs.getBigDecimal("shares"));
-    trade.setPrice(rs.getBigDecimal("price"));
-    trade.setTradeType(rs.getString("trade_type"));
-    trade.setCreateDate(rs.getTimestamp("create_date").toInstant());
-    return trade;
-  };
+  private static final RowMapper<Trade> tradeRowMapper = (rs, rowNum) -> new Trade(
+    rs.getLong("id"),
+    rs.getLong("portfolio_id"),
+    rs.getString("stock_symbol"),
+    rs.getBigDecimal("shares"),
+    rs.getBigDecimal("price"),
+    rs.getString("trade_type"),
+    rs.getTimestamp("create_date").toInstant()
+  );
 
   public List<Trade> getTradesByPortfolio(Long portfolioId) {
-    return jdbcTemplate.query(MarketWiseSQL.GET_TRADES_BY_PORTFOLIO, new Object[] { portfolioId }, tradeMapper);
+    return jdbcTemplate.query(MarketWiseSQL.GET_TRADES_BY_PORTFOLIO, new Object[] { portfolioId }, tradeRowMapper);
   }
 
   public Trade createTrade(Trade trade) {

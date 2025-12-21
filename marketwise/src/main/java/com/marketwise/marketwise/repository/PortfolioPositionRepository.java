@@ -6,8 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -19,22 +17,17 @@ public class PortfolioPositionRepository {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  private final RowMapper<PortfolioPosition> portfolioPositionMapper = new RowMapper<>() {
-    @Override
-    public PortfolioPosition mapRow(ResultSet rs, int rowNum) throws SQLException {
-      PortfolioPosition portfolioPosition = new PortfolioPosition();
-      portfolioPosition.setId(rs.getLong("id"));
-      portfolioPosition.setPortfolioId(rs.getLong("portfolio_id"));
-      portfolioPosition.setStockSymbol(rs.getString("stock_symbol"));
-      portfolioPosition.setShares(rs.getBigDecimal("shares"));
-      portfolioPosition.setAveragePrice(rs.getBigDecimal("average_price"));
-      portfolioPosition.setCreateDate(rs.getTimestamp("create_date").toInstant());
-      return portfolioPosition;
-    }
-  };
+  private static final RowMapper<PortfolioPosition> portfolioPositionRowMapper = (rs, rowNum) -> new PortfolioPosition(
+    rs.getLong("id"),
+    rs.getLong("portfolio_id"),
+    rs.getString("stock_symbol"),
+    rs.getBigDecimal("shares"),
+    rs.getBigDecimal("average_price"),
+    rs.getTimestamp("create_date").toInstant()
+  );
 
   public List<PortfolioPosition> getPortfolioPositionsForPortfolio(Long portfolioId) {
-    return jdbcTemplate.query(MarketWiseSQL.GET_PORTFOLIO_POSITIONS_BY_PORTFOLIO, new Object[] { portfolioId }, portfolioPositionMapper);
+    return jdbcTemplate.query(MarketWiseSQL.GET_PORTFOLIO_POSITIONS_BY_PORTFOLIO, new Object[] { portfolioId }, portfolioPositionRowMapper);
   }
 
   public PortfolioPosition createPortfolioPosition(PortfolioPosition portfolioPosition) {

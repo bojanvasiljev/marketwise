@@ -17,28 +17,19 @@ public class PortfolioRepository {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  private final RowMapper<Portfolio> portfolioMapper = (rs, rowNum) -> {
-    Portfolio p = new Portfolio();
-    p.setId(rs.getLong("id"));
-    p.setUserId(rs.getLong("user_id"));
-    p.setCashBalance(rs.getBigDecimal("cash_balance"));
-    p.setCreateDate(rs.getTimestamp("create_date").toInstant());
-    return p;
-  };
+  private static final RowMapper<Portfolio> portfolioRowMapper = (rs, rowNum) -> new Portfolio(
+    rs.getLong("id"),
+    rs.getLong("user_id"),
+    rs.getBigDecimal("cash_balance"),
+    rs.getTimestamp("create_date").toInstant()
+  );
 
   public Portfolio getPortfolioByUser(Long userId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_USER, new Object[] { userId }, portfolioMapper);
+    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_USER, new Object[] { userId }, portfolioRowMapper);
   }
 
   public Portfolio getPortfolioById(Long portfolioId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_PORTFOLIO, new Object[] { portfolioId }, (rs, rowNum) -> {
-      Portfolio portfolio = new Portfolio();
-      portfolio.setId(rs.getLong("id"));
-      portfolio.setUserId(rs.getLong("user_id"));
-      portfolio.setCashBalance(rs.getBigDecimal("cash_balance"));
-      portfolio.setCreateDate(rs.getTimestamp("create_date").toInstant());
-      return portfolio;
-    });
+    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_PORTFOLIO, new Object[] { portfolioId }, portfolioRowMapper);
   }
 
   public Portfolio createPortfolio(Portfolio portfolio) {

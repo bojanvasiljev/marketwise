@@ -6,8 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -19,25 +17,20 @@ public class AccountRepository {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  private final RowMapper<Account> rowMapper = new RowMapper<>() {
-    @Override
-    public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
-      Account account = new Account();
-      account.setId(rs.getLong("id"));
-      account.setUserId(rs.getLong("user_id"));
-      account.setSeasonId(rs.getLong("season_id"));
-      account.setCashBalance(rs.getBigDecimal("cash_balance"));
-      account.setCreateDate(rs.getTimestamp("create_date").toInstant());
-      return account;
-    }
-  };
+  private static final RowMapper<Account> accountRowMapper = (rs, rowNum) -> new Account(
+    rs.getLong("id"),
+    rs.getLong("user_id"),
+    rs.getLong("season_id"),
+    rs.getBigDecimal("cash_balance"),
+    rs.getTimestamp("create_date").toInstant()
+  );
 
   public List<Account> getAccountsBySeason(Long seasonId) {
-    return jdbcTemplate.query(MarketWiseSQL.GET_ACCOUNTS_BY_SEASON, new Object[] { seasonId }, rowMapper);
+    return jdbcTemplate.query(MarketWiseSQL.GET_ACCOUNTS_BY_SEASON, new Object[] { seasonId }, accountRowMapper);
   }
 
   public Account getAccountByUserAndSeason(Long userId, Long seasonId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_ACCOUNT_BY_USER_AND_SEASON, new Object[] { userId, seasonId }, rowMapper);
+    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_ACCOUNT_BY_USER_AND_SEASON, new Object[] { userId, seasonId }, accountRowMapper);
   }
 
   public Account createAccount(Account account) {
