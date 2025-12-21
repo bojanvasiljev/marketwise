@@ -10,25 +10,25 @@ import java.util.List;
 @Service
 public class AccountService {
   
-  private final AccountRepository repository;
+  private final AccountRepository accountRepository;
 
-  public AccountService(AccountRepository repository) {
-    this.repository = repository;
+  public AccountService(AccountRepository accountRepository) {
+    this.accountRepository = accountRepository;
   }
 
   public List<Account> getAccountsBySeason(Long seasonId) {
-    return repository.getAccountsBySeason(seasonId);
+    return accountRepository.getAccountsBySeason(seasonId);
   }
 
   public Account getAccountForUserAndSeason(Long userId, Long seasonId) {
-    return repository.getAccountByUserAndSeason(userId, seasonId);
+    return accountRepository.getAccountByUserAndSeason(userId, seasonId);
   }
 
   public Account createAccount(Account account) {
-    return repository.createAccount(account);
+    return accountRepository.createAccount(account);
   }
 
   public void updateCashBalance(Long accountId, BigDecimal newBalance) {
-    repository.updateCashBalance(accountId, newBalance);
+    accountRepository.updateCashBalance(accountId, newBalance);
   }
 }

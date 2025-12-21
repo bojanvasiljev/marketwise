@@ -56,7 +56,7 @@ public class SeasonRepository {
     return jdbcTemplate.update(MarketWiseSQL.UPDATE_SEASON, season.getName(), Timestamp.from(season.getStartDate()), Timestamp.from(season.getEndDate()), season.getId());
   }
 
-  public void deleteSeason(Long id) {
-    jdbcTemplate.update(MarketWiseSQL.DELETE_SEASON, id);
+  public void deleteSeason(Long seasonId) {
+    jdbcTemplate.update(MarketWiseSQL.DELETE_SEASON, seasonId);
   }
 }

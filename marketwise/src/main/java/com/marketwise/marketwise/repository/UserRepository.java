@@ -24,9 +24,9 @@ public class UserRepository {
       rs.getString("password_hash"),
       rs.getTimestamp("created_at").toInstant());
 
-  public User getUserById(Long id) {
+  public User getUserByUserId(Long userId) {
     return jdbcTemplate.queryForObject(MarketWiseSQL.GET_USER_BY_ID,
-        new Object[] {id},
+        new Object[] {userId},
         (rs, rowNum) -> {
           User u = new User();
           u.setId(rs.getLong("id"));
@@ -56,7 +56,7 @@ public class UserRepository {
     jdbcTemplate.update(MarketWiseSQL.UPDATE_USER, user.getEmail(), user.getPasswordHash(), user.getId());
   }
 
-  public void deleteUser(Long id) {
-    jdbcTemplate.update(MarketWiseSQL.DELETE_USER, id);
+  public void deleteUser(Long userId) {
+    jdbcTemplate.update(MarketWiseSQL.DELETE_USER, userId);
   }
 }

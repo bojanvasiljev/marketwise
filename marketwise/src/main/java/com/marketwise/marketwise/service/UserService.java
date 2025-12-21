@@ -19,8 +19,8 @@ public class UserService {
     this.userRepository = userRepository;
   }
 
-  public User getUserById(Long id) {
-    return userRepository.getUserById(id);
+  public User getUserByUserId(Long userId) {
+    return userRepository.getUserByUserId(userId);
   }
 
   public List<User> getUsers() {
@@ -37,7 +37,7 @@ public class UserService {
     userRepository.updateUser(user);
   }
 
-  public void deleteUser(Long id) {
-    userRepository.deleteUser(id);
+  public void deleteUser(Long userId) {
+    userRepository.deleteUser(userId);
   }
 }

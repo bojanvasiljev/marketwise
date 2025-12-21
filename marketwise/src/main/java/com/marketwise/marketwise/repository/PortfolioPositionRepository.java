@@ -67,7 +67,7 @@ public class PortfolioPositionRepository {
     jdbcTemplate.update(MarketWiseSQL.UPDATE_PORTFOLIO_POSITION_SHARES, portfolioPosition.getShares(), portfolioPosition.getAveragePrice(), portfolioPosition.getId());
   }
 
-  public void deletePortfolioPosition(Long id) {
-    jdbcTemplate.update(MarketWiseSQL.DELETE_PORTFOLIO_POSITION, id);
+  public void deletePortfolioPosition(Long portfolioPositionId) {
+    jdbcTemplate.update(MarketWiseSQL.DELETE_PORTFOLIO_POSITION, portfolioPositionId);
   }
 }

@@ -40,8 +40,8 @@ public class SeasonService {
     return seasonRepository.getSeasonById(season.getId());
   }
 
-  public void deleteSeason(Long id) {
-    seasonRepository.deleteSeason(id);
+  public void deleteSeason(Long seasonId) {
+    seasonRepository.deleteSeason(seasonId);
   }
 
   private void validateDates(Instant start, Instant end) {

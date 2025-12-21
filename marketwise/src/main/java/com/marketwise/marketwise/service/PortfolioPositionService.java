@@ -31,7 +31,7 @@ public class PortfolioPositionService {
     portfolioPositionRepository.updatePortfolioPosition(portfolioPosition);
   }
 
-  public void deletePortfolioPosition(Long id) {
-    portfolioPositionRepository.deletePortfolioPosition(id);
+  public void deletePortfolioPosition(Long portfolioPositionId) {
+    portfolioPositionRepository.deletePortfolioPosition(portfolioPositionId);
   }
 }
