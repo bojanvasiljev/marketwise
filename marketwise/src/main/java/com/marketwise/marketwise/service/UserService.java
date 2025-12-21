@@ -19,6 +19,12 @@ public class UserService {
     this.userRepository = userRepository;
   }
 
+  public User createUser(User user) {
+    user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+    
+    return this.userRepository.createUser(user);
+  }
+
   public User getUserByUserId(Long userId) {
     return this.userRepository.getUserByUserId(userId);
   }
@@ -27,13 +33,9 @@ public class UserService {
     return this.userRepository.getUsers();
   }
 
-  public User createUser(User user) {
-    user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
-    return this.userRepository.createUser(user);
-  }
-
   public void updateUser(User user) {
     user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+    
     this.userRepository.updateUser(user);
   }
 

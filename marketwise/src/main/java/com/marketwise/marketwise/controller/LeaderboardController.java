@@ -25,6 +25,6 @@ public class LeaderboardController {
   @Operation(summary = "Get leader board for a season")
   @GetMapping("/season/{seasonId}")
   public ResponseEntity<List<UserLeaderboard>> getSeasonLeaderboard(@PathVariable Long seasonId, @RequestParam(defaultValue = "10") int limit) {
-    return ResponseEntity.ok(leaderboardService.getSeasonLeaderboard(seasonId, limit));
+    return ResponseEntity.ok(this.leaderboardService.getSeasonLeaderboard(seasonId, limit));
   }
 }

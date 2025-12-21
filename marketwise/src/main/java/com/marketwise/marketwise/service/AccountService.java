@@ -16,16 +16,16 @@ public class AccountService {
     this.accountRepository = accountRepository;
   }
 
+  public Account createAccount(Account account) {
+    return this.accountRepository.createAccount(account);
+  }
+
   public List<Account> getAccountsBySeason(Long seasonId) {
     return this.accountRepository.getAccountsBySeason(seasonId);
   }
 
   public Account getAccountForUserAndSeason(Long userId, Long seasonId) {
     return this.accountRepository.getAccountByUserAndSeason(userId, seasonId);
-  }
-
-  public Account createAccount(Account account) {
-    return this.accountRepository.createAccount(account);
   }
 
   public void updateCashBalance(Long accountId, BigDecimal newBalance) {

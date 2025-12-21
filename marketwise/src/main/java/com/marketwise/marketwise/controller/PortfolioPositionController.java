@@ -23,37 +23,41 @@ public class PortfolioPositionController {
         this.portfolioPositionService = portfolioPositionService;
     }
 
-    @Operation(summary = "Get all positions for a portfolio")
-    @GetMapping("/{portfolioId}")
-    public ResponseEntity<List<PortfolioPosition>> getPortfolioPositionsForPortfolio(@PathVariable Long portfolioId) {
-        return ResponseEntity.ok(portfolioPositionService.getPortfolioPositionsForPortfolio(portfolioId));
-    }
-
     @Operation(summary = "Create a new portfolio position")
     @PostMapping
     public ResponseEntity<PortfolioPosition> createPortfolioPosition(@RequestBody PortfolioPosition portfolioPosition) {
-        return new ResponseEntity<>(portfolioPositionService.createPortfolioPosition(portfolioPosition), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.portfolioPositionService.createPortfolioPosition(portfolioPosition), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Get all positions for a portfolio")
+    @GetMapping("/{portfolioId}")
+    public ResponseEntity<List<PortfolioPosition>> getPortfolioPositionsForPortfolio(@PathVariable Long portfolioId) {
+        return ResponseEntity.ok(this.portfolioPositionService.getPortfolioPositionsForPortfolio(portfolioId));
     }
 
     @Operation(summary = "Add or update a portfolio position")
     @PostMapping("/{portfolioId}")
     public ResponseEntity<PortfolioPosition> addOrUpdatePortfolioPosition(@PathVariable Long portfolioId, @RequestBody PortfolioPosition portfolioPosition) {
         portfolioPosition.setPortfolioId(portfolioId);
-        return new ResponseEntity<>(portfolioPositionService.addOrUpdatePortfolioPosition(portfolioPosition), HttpStatus.CREATED);
+
+        return new ResponseEntity<>(this.portfolioPositionService.addOrUpdatePortfolioPosition(portfolioPosition), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update a portfolio position")
     @PutMapping("/{portfolioPositionId}")
     public ResponseEntity<Void> updatePortfolioPosition(@PathVariable Long portfolioPositionId, @RequestBody PortfolioPosition portfolioPosition) {
         portfolioPosition.setId(portfolioPositionId);
-        portfolioPositionService.updatePortfolioPosition(portfolioPosition);
+        
+        this.portfolioPositionService.updatePortfolioPosition(portfolioPosition);
+
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Delete a portfolio position")
     @DeleteMapping("/{portfolioPositionId}")
     public ResponseEntity<Void> deletePortfolioPosition(@PathVariable Long portfolioPositionId) {
-        portfolioPositionService.deletePortfolioPosition(portfolioPositionId);
+        this.portfolioPositionService.deletePortfolioPosition(portfolioPositionId);
+        
         return ResponseEntity.noContent().build();
     }
 }

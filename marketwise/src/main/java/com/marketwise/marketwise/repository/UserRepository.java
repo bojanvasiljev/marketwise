@@ -25,14 +25,6 @@ public class UserRepository {
       rs.getTimestamp("create_date").toInstant()
   );
 
-  public User getUserByUserId(Long userId) {
-    return this.jdbcTemplate.queryForObject(MarketWiseSQL.GET_USER_BY_ID, new Object[] { userId }, userRowMapper);
-  }
-
-  public List<User> getUsers() {
-    return this.jdbcTemplate.query(MarketWiseSQL.GET_USERS, userRowMapper);
-  }
-
   public User createUser(User user) {
     return this.jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_USER,
         new Object[] { user.getUsername(), user.getEmail(), user.getPasswordHash() },
@@ -41,6 +33,14 @@ public class UserRepository {
           user.setCreateDate(rs.getTimestamp("create_date").toInstant());
           return user;
         });
+  }
+
+  public User getUserByUserId(Long userId) {
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.GET_USER_BY_ID, new Object[] { userId }, userRowMapper);
+  }
+
+  public List<User> getUsers() {
+    return this.jdbcTemplate.query(MarketWiseSQL.GET_USERS, userRowMapper);
   }
 
   public void updateUser(User user) {

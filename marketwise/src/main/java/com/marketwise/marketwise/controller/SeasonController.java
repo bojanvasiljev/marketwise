@@ -25,18 +25,6 @@ public class SeasonController {
     this.seasonService = seasonService;
   }
 
-  @Operation(summary = "Get season by ID")
-  @GetMapping("/{seasonId}")
-  public ResponseEntity<Season> getSeasonById(@PathVariable Long seasonId) {
-    return ResponseEntity.ok(seasonService.getSeasonById(seasonId));
-  }
-
-  @Operation(summary = "Get all seasons")
-  @GetMapping
-  public ResponseEntity<List<Season>> getAllSeasons() {
-    return ResponseEntity.ok(seasonService.getAllSeasons());
-  }
-
   @Operation(summary = "Create a new season")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "Season created successfully"),
@@ -44,20 +32,33 @@ public class SeasonController {
   })
   @PostMapping
   public ResponseEntity<Season> createSeason(@RequestBody Season season) {
-    return new ResponseEntity<>(seasonService.createSeason(season), HttpStatus.CREATED);
+    return new ResponseEntity<>(this.seasonService.createSeason(season), HttpStatus.CREATED);
+  }
+
+  @Operation(summary = "Get season by ID")
+  @GetMapping("/{seasonId}")
+  public ResponseEntity<Season> getSeasonById(@PathVariable Long seasonId) {
+    return ResponseEntity.ok(this.seasonService.getSeasonById(seasonId));
+  }
+
+  @Operation(summary = "Get all seasons")
+  @GetMapping
+  public ResponseEntity<List<Season>> getAllSeasons() {
+    return ResponseEntity.ok(this.seasonService.getAllSeasons());
   }
 
   @Operation(summary = "Update an existing season")
   @PutMapping("/{seasonId}")
   public ResponseEntity<Season> updateSeason(@PathVariable Long seasonId, @RequestBody Season season) {
     season.setId(seasonId);
-    return ResponseEntity.ok(seasonService.updateSeason(season));
+    return ResponseEntity.ok(this.seasonService.updateSeason(season));
   }
 
   @Operation(summary = "Delete a season")
   @DeleteMapping("/{seasonId}")
   public ResponseEntity<Void> deleteSeason(@PathVariable Long seasonId) {
-    seasonService.deleteSeason(seasonId);
+    this.seasonService.deleteSeason(seasonId);
+    
     return ResponseEntity.noContent().build();
   }
 }

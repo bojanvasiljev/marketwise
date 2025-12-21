@@ -15,12 +15,12 @@ public class PortfolioService {
     this.portfolioRepository = portfolioRepository;
   }
 
-  public Portfolio getPortfolioByUser(Long userId) {
-    return this.portfolioRepository.getPortfolioByUser(userId);
-  }
-
   public Portfolio createPortfolio(Portfolio portfolio) {
     return this.portfolioRepository.createPortfolio(portfolio);
+  }
+
+  public Portfolio getPortfolioByUser(Long userId) {
+    return this.portfolioRepository.getPortfolioByUser(userId);
   }
 
   public void updateCashBalance(Long portfolioId, BigDecimal newBalance) {

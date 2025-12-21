@@ -26,10 +26,6 @@ public class PortfolioPositionRepository {
     rs.getTimestamp("create_date").toInstant()
   );
 
-  public List<PortfolioPosition> getPortfolioPositionsForPortfolio(Long portfolioId) {
-    return this.jdbcTemplate.query(MarketWiseSQL.GET_PORTFOLIO_POSITIONS_BY_PORTFOLIO, new Object[] { portfolioId }, portfolioPositionRowMapper);
-  }
-
   public PortfolioPosition createPortfolioPosition(PortfolioPosition portfolioPosition) {
     return this.jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_PORTFOLIO_POSITION,
         new Object[] { portfolioPosition.getPortfolioId(), portfolioPosition.getStockSymbol(), portfolioPosition.getShares(), portfolioPosition.getAveragePrice() },
@@ -37,6 +33,10 @@ public class PortfolioPositionRepository {
           portfolioPosition.setId(rs.getLong("id"));
           return portfolioPosition;
         });
+  }
+
+  public List<PortfolioPosition> getPortfolioPositionsForPortfolio(Long portfolioId) {
+    return this.jdbcTemplate.query(MarketWiseSQL.GET_PORTFOLIO_POSITIONS_BY_PORTFOLIO, new Object[] { portfolioId }, portfolioPositionRowMapper);
   }
 
   public PortfolioPosition addOrUpdatePortfolioPosition(PortfolioPosition portfolioPosition) {

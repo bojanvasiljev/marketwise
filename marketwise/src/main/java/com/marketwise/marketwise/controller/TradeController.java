@@ -19,16 +19,10 @@ import java.util.List;
 @Tag(name = "Trades", description = "Operations related to Trades")
 public class TradeController {
   
-  private final TradeService service;
+  private final TradeService tradeService;
 
-  public TradeController(TradeService service) {
-    this.service = service;
-  }
-
-  @Operation(summary = "Get all trades for a portfolio")
-  @GetMapping("/portfolio/{portfolioId}")
-  public ResponseEntity<List<Trade>> getTrades(@PathVariable Long portfolioId) {
-    return ResponseEntity.ok(service.getTradesByPortfolio(portfolioId));
+  public TradeController(TradeService tradeService) {
+    this.tradeService = tradeService;
   }
 
   @Operation(summary = "Create a new trade")
@@ -38,6 +32,12 @@ public class TradeController {
   })
   @PostMapping
   public ResponseEntity<Trade> executeTrade(@RequestBody Trade trade) {
-    return new ResponseEntity<>(service.executeTrade(trade), HttpStatus.CREATED);
+    return new ResponseEntity<>(this.tradeService.executeTrade(trade), HttpStatus.CREATED);
+  }
+
+  @Operation(summary = "Get all trades for a portfolio")
+  @GetMapping("/portfolio/{portfolioId}")
+  public ResponseEntity<List<Trade>> getTrades(@PathVariable Long portfolioId) {
+    return ResponseEntity.ok(this.tradeService.getTradesByPortfolio(portfolioId));
   }
 }

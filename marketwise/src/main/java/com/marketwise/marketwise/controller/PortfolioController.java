@@ -25,12 +25,6 @@ public class PortfolioController {
         this.portfolioService = portfolioService;
     }
 
-    @Operation(summary = "Get portfolio for a user")
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<Portfolio> getPortfolioByUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(portfolioService.getPortfolioByUser(userId));
-    }
-
     @Operation(summary = "Create a new portfolio")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Portfolio created successfully"),
@@ -38,13 +32,20 @@ public class PortfolioController {
     })
     @PostMapping
     public ResponseEntity<Portfolio> createPortfolio(@RequestBody Portfolio portfolio) {
-        return new ResponseEntity<>(portfolioService.createPortfolio(portfolio), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.portfolioService.createPortfolio(portfolio), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Get portfolio for a user")
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Portfolio> getPortfolioByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(this.portfolioService.getPortfolioByUser(userId));
     }
 
     @Operation(summary = "Update cash balance for a portfolio")
     @PutMapping("/{portfolioId}/balance")
     public ResponseEntity<Void> updateCashBalance(@PathVariable Long portfolioId, @RequestBody BigDecimal newBalance) {
-        portfolioService.updateCashBalance(portfolioId, newBalance);
+        this.portfolioService.updateCashBalance(portfolioId, newBalance);
+        
         return ResponseEntity.noContent().build();
     }
 }

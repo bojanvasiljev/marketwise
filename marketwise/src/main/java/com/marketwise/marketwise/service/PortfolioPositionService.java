@@ -15,12 +15,12 @@ public class PortfolioPositionService {
     this.portfolioPositionRepository = portfolioPositionRepository;
   }
 
-  public List<PortfolioPosition> getPortfolioPositionsForPortfolio(Long portfolioId) {
-    return this.portfolioPositionRepository.getPortfolioPositionsForPortfolio(portfolioId);
-  }
-
   public PortfolioPosition createPortfolioPosition(PortfolioPosition portfolioPosition) {
     return this.portfolioPositionRepository.createPortfolioPosition(portfolioPosition);
+  }
+
+  public List<PortfolioPosition> getPortfolioPositionsForPortfolio(Long portfolioId) {
+    return this.portfolioPositionRepository.getPortfolioPositionsForPortfolio(portfolioId);
   }
 
   public PortfolioPosition addOrUpdatePortfolioPosition(PortfolioPosition portfolioPosition) {

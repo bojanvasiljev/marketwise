@@ -27,10 +27,6 @@ public class TradeRepository {
     rs.getTimestamp("create_date").toInstant()
   );
 
-  public List<Trade> getTradesByPortfolio(Long portfolioId) {
-    return this.jdbcTemplate.query(MarketWiseSQL.GET_TRADES_BY_PORTFOLIO, new Object[] { portfolioId }, tradeRowMapper);
-  }
-
   public Trade createTrade(Trade trade) {
     return this.jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_TRADE,
         new Object[] { trade.getPortfolioId(), trade.getStockSymbol(), trade.getShares(), trade.getPrice(), trade.getTradeType() },
@@ -39,5 +35,9 @@ public class TradeRepository {
           trade.setCreateDate(rs.getTimestamp("create_date").toInstant());
           return trade;
         });
+  }
+
+  public List<Trade> getTradesByPortfolio(Long portfolioId) {
+    return this.jdbcTemplate.query(MarketWiseSQL.GET_TRADES_BY_PORTFOLIO, new Object[] { portfolioId }, tradeRowMapper);
   }
 }

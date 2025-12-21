@@ -27,14 +27,6 @@ public class SeasonRepository {
       rs.getTimestamp("create_date").toInstant()
   );
 
-  public Season getSeasonById(Long seasonId) {
-    return this.jdbcTemplate.queryForObject(MarketWiseSQL.GET_SEASON_BY_ID, new Object[] { seasonId }, seasonRowMapper);
-  }
-
-  public List<Season> getAllSeasons() {
-    return this.jdbcTemplate.query(MarketWiseSQL.GET_SEASONS, seasonRowMapper);
-  }
-
   public Season createSeason(Season season) {
     return this.jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_SEASON,
         new Object[] { season.getName(), Timestamp.from(season.getStartDate()), Timestamp.from(season.getEndDate()), season.getStartingCash() }, (rs, rowNum) -> {
@@ -42,6 +34,14 @@ public class SeasonRepository {
           season.setCreateDate(rs.getTimestamp("create_date").toInstant());
           return season;
         });
+  }
+
+  public Season getSeasonById(Long seasonId) {
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.GET_SEASON_BY_ID, new Object[] { seasonId }, seasonRowMapper);
+  }
+
+  public List<Season> getAllSeasons() {
+    return this.jdbcTemplate.query(MarketWiseSQL.GET_SEASONS, seasonRowMapper);
   }
 
   public int updateSeason(Season season) {

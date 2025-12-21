@@ -18,34 +18,35 @@ import java.util.List;
 @Tag(name = "Accounts", description = "Operations related to Accounts")
 public class AccountController {
 
-  private final AccountService service;
+  private final AccountService accountService;
 
-  public AccountController(AccountService service) {
-    this.service = service;
-  }
-
-  @Operation(summary = "Get all accounts by season")
-  @GetMapping("/season/{seasonId}")
-  public ResponseEntity<List<Account>> getAccountsBySeason(@PathVariable Long seasonId) {
-    return ResponseEntity.ok(service.getAccountsBySeason(seasonId));
-  }
-
-  @Operation(summary = "Get all account by user and season")
-  @GetMapping("/user/{userId}/season/{seasonId}")
-  public ResponseEntity<Account> getAccountForUserAndSeason(@PathVariable Long userId, @PathVariable Long seasonId) {
-    return ResponseEntity.ok(service.getAccountForUserAndSeason(userId, seasonId));
+  public AccountController(AccountService accountService) {
+    this.accountService = accountService;
   }
 
   @Operation(summary = "Create a new account for a user and season")
   @PostMapping
   public ResponseEntity<Account> createAccount(@RequestBody Account account) {
-    return new ResponseEntity<>(service.createAccount(account), HttpStatus.CREATED);
+    return new ResponseEntity<>(this.accountService.createAccount(account), HttpStatus.CREATED);
+  }
+
+  @Operation(summary = "Get all accounts by season")
+  @GetMapping("/season/{seasonId}")
+  public ResponseEntity<List<Account>> getAccountsBySeason(@PathVariable Long seasonId) {
+    return ResponseEntity.ok(this.accountService.getAccountsBySeason(seasonId));
+  }
+
+  @Operation(summary = "Get all account by user and season")
+  @GetMapping("/user/{userId}/season/{seasonId}")
+  public ResponseEntity<Account> getAccountForUserAndSeason(@PathVariable Long userId, @PathVariable Long seasonId) {
+    return ResponseEntity.ok(this.accountService.getAccountForUserAndSeason(userId, seasonId));
   }
 
   @Operation(summary = "Update cash balance for an account")
   @PutMapping("/{accountId}/balance")
   public ResponseEntity<Void> updateCashBalance(@PathVariable Long accountId, @RequestBody BigDecimal newBalance) {
-    service.updateCashBalance(accountId, newBalance);
+    this.accountService.updateCashBalance(accountId, newBalance);
+    
     return ResponseEntity.noContent().build();
   }
 }

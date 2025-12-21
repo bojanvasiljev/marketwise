@@ -19,19 +19,19 @@ public class SeasonService {
     this.seasonValidator = seasonValidator;
   }
 
+  @Transactional
+  public Season createSeason(Season season) {
+    this.seasonValidator.validateSeason(season);
+
+    return seasonRepository.createSeason(season);
+  }
+
   public Season getSeasonById(Long seasonId) {
     return seasonRepository.getSeasonById(seasonId);
   }
 
   public List<Season> getAllSeasons() {
     return seasonRepository.getAllSeasons();
-  }
-
-  @Transactional
-  public Season createSeason(Season season) {
-    this.seasonValidator.validateSeason(season);
-
-    return seasonRepository.createSeason(season);
   }
 
   public Season updateSeason(Season season) {

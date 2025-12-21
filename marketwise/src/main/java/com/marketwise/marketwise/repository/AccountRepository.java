@@ -25,14 +25,6 @@ public class AccountRepository {
     rs.getTimestamp("create_date").toInstant()
   );
 
-  public List<Account> getAccountsBySeason(Long seasonId) {
-    return this.jdbcTemplate.query(MarketWiseSQL.GET_ACCOUNTS_BY_SEASON, new Object[] { seasonId }, accountRowMapper);
-  }
-
-  public Account getAccountByUserAndSeason(Long userId, Long seasonId) {
-    return this.jdbcTemplate.queryForObject(MarketWiseSQL.GET_ACCOUNT_BY_USER_AND_SEASON, new Object[] { userId, seasonId }, accountRowMapper);
-  }
-
   public Account createAccount(Account account) {
     return this.jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_ACCOUNT,
         new Object[] { account.getUserId(), account.getSeasonId(), account.getCashBalance() },
@@ -41,6 +33,14 @@ public class AccountRepository {
           account.setCreateDate(rs.getTimestamp("create_date").toInstant());
           return account;
         });
+  }
+
+  public List<Account> getAccountsBySeason(Long seasonId) {
+    return this.jdbcTemplate.query(MarketWiseSQL.GET_ACCOUNTS_BY_SEASON, new Object[] { seasonId }, accountRowMapper);
+  }
+
+  public Account getAccountByUserAndSeason(Long userId, Long seasonId) {
+    return this.jdbcTemplate.queryForObject(MarketWiseSQL.GET_ACCOUNT_BY_USER_AND_SEASON, new Object[] { userId, seasonId }, accountRowMapper);
   }
 
   public void updateCashBalance(Long accountId, java.math.BigDecimal newBalance) {
