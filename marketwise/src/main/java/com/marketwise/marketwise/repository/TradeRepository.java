@@ -18,28 +18,27 @@ public class TradeRepository {
   }
 
   private final RowMapper<Trade> tradeMapper = (rs, rowNum) -> {
-    Trade t = new Trade();
-    t.setId(rs.getLong("id"));
-    t.setPortfolioId(rs.getLong("portfolio_id"));
-    t.setStockSymbol(rs.getString("stock_symbol"));
-    t.setShares(rs.getBigDecimal("shares"));
-    t.setPrice(rs.getBigDecimal("price"));
-    t.setTradeType(rs.getString("trade_type"));
-    t.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
-    return t;
+    Trade trade = new Trade();
+    trade.setId(rs.getLong("id"));
+    trade.setPortfolioId(rs.getLong("portfolio_id"));
+    trade.setStockSymbol(rs.getString("stock_symbol"));
+    trade.setShares(rs.getBigDecimal("shares"));
+    trade.setPrice(rs.getBigDecimal("price"));
+    trade.setTradeType(rs.getString("trade_type"));
+    trade.setCreateDate(rs.getTimestamp("create_date").toInstant());
+    return trade;
   };
 
   public List<Trade> getTradesByPortfolio(Long portfolioId) {
-    return jdbcTemplate.query(MarketWiseSQL.GET_TRADES_BY_PORTFOLIO, new Object[] {portfolioId}, tradeMapper);
+    return jdbcTemplate.query(MarketWiseSQL.GET_TRADES_BY_PORTFOLIO, new Object[] { portfolioId }, tradeMapper);
   }
 
   public Trade createTrade(Trade trade) {
     return jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_TRADE,
-        new Object[] {trade.getPortfolioId(), trade.getStockSymbol(), trade.getShares(),
-            trade.getPrice(), trade.getTradeType()},
+        new Object[] { trade.getPortfolioId(), trade.getStockSymbol(), trade.getShares(), trade.getPrice(), trade.getTradeType() },
         (rs, rowNum) -> {
           trade.setId(rs.getLong("id"));
-          trade.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+          trade.setCreateDate(rs.getTimestamp("create_date").toInstant());
           return trade;
         });
   }

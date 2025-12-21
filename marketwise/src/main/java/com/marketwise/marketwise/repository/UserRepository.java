@@ -22,19 +22,19 @@ public class UserRepository {
       rs.getString("username"),
       rs.getString("email"),
       rs.getString("password_hash"),
-      rs.getTimestamp("created_at").toInstant());
+      rs.getTimestamp("create_date").toInstant());
 
   public User getUserByUserId(Long userId) {
     return jdbcTemplate.queryForObject(MarketWiseSQL.GET_USER_BY_ID,
-        new Object[] {userId},
+        new Object[] { userId },
         (rs, rowNum) -> {
-          User u = new User();
-          u.setId(rs.getLong("id"));
-          u.setUsername(rs.getString("username"));
-          u.setEmail(rs.getString("email"));
-          u.setPasswordHash(rs.getString("password_hash"));
-          u.setCreatedAt(rs.getTimestamp("created_at").toInstant());
-          return u;
+          User user = new User();
+          user.setId(rs.getLong("id"));
+          user.setUsername(rs.getString("username"));
+          user.setEmail(rs.getString("email"));
+          user.setPasswordHash(rs.getString("password_hash"));
+          user.setCreateDate(rs.getTimestamp("create_date").toInstant());
+          return user;
         });
   }
 
@@ -44,10 +44,10 @@ public class UserRepository {
 
   public User createUser(User user) {
     return jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_USER,
-        new Object[] {user.getUsername(), user.getEmail(), user.getPasswordHash()},
+        new Object[] { user.getUsername(), user.getEmail(), user.getPasswordHash() },
         (rs, rowNum) -> {
           user.setId(rs.getLong("id"));
-          user.setCreatedAt(rs.getTimestamp("created_at").toInstant());
+          user.setCreateDate(rs.getTimestamp("create_date").toInstant());
           return user;
         });
   }

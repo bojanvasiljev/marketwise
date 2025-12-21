@@ -24,17 +24,17 @@ public class SeasonRepository {
       rs.getTimestamp("start_date").toInstant(),
       rs.getTimestamp("end_date").toInstant(),
       rs.getBigDecimal("starting_cash"),
-      rs.getTimestamp("created_at").toInstant());
+      rs.getTimestamp("create_date").toInstant());
 
   public Season getSeasonById(Long seasonId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_SEASON_BY_ID, new Object[] {seasonId}, (rs, rowNum) -> {
+    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_SEASON_BY_ID, new Object[] { seasonId }, (rs, rowNum) -> {
       Season season = new Season();
       season.setId(rs.getLong("id"));
       season.setName(rs.getString("name"));
       season.setStartDate(rs.getTimestamp("start_date").toInstant());
       season.setEndDate(rs.getTimestamp("end_date").toInstant());
       season.setStartingCash(rs.getBigDecimal("starting_cash"));
-      season.setCreatedAt(rs.getTimestamp("created_at").toInstant());
+      season.setCreateDate(rs.getTimestamp("create_date").toInstant());
       return season;
     });
   }
@@ -45,9 +45,9 @@ public class SeasonRepository {
 
   public Season createSeason(Season season) {
     return jdbcTemplate.queryForObject(MarketWiseSQL.CREATE_SEASON,
-        new Object[] {season.getName(), Timestamp.from(season.getStartDate()), Timestamp.from(season.getEndDate()), season.getStartingCash()}, (rs, rowNum) -> {
+        new Object[] { season.getName(), Timestamp.from(season.getStartDate()), Timestamp.from(season.getEndDate()), season.getStartingCash() }, (rs, rowNum) -> {
           season.setId(rs.getLong("id"));
-          season.setCreatedAt(rs.getTimestamp("created_at").toInstant());
+          season.setCreateDate(rs.getTimestamp("create_date").toInstant());
           return season;
         });
   }

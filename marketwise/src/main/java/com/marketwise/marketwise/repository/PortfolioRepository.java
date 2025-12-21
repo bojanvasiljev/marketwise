@@ -22,22 +22,22 @@ public class PortfolioRepository {
     p.setId(rs.getLong("id"));
     p.setUserId(rs.getLong("user_id"));
     p.setCashBalance(rs.getBigDecimal("cash_balance"));
-    p.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+    p.setCreateDate(rs.getTimestamp("create_date").toInstant());
     return p;
   };
 
   public Portfolio getPortfolioByUser(Long userId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_USER, new Object[] {userId}, portfolioMapper);
+    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_USER, new Object[] { userId }, portfolioMapper);
   }
 
   public Portfolio getPortfolioById(Long portfolioId) {
-    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_PORTFOLIO, new Object[] {portfolioId}, (rs, rowNum) -> {
-      Portfolio p = new Portfolio();
-      p.setId(rs.getLong("id"));
-      p.setUserId(rs.getLong("user_id"));
-      p.setCashBalance(rs.getBigDecimal("cash_balance"));
-      p.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
-      return p;
+    return jdbcTemplate.queryForObject(MarketWiseSQL.GET_PORTFOLIO_BY_PORTFOLIO, new Object[] { portfolioId }, (rs, rowNum) -> {
+      Portfolio portfolio = new Portfolio();
+      portfolio.setId(rs.getLong("id"));
+      portfolio.setUserId(rs.getLong("user_id"));
+      portfolio.setCashBalance(rs.getBigDecimal("cash_balance"));
+      portfolio.setCreateDate(rs.getTimestamp("create_date").toInstant());
+      return portfolio;
     });
   }
 
@@ -47,16 +47,16 @@ public class PortfolioRepository {
 
     if (portfolio.getCashBalance() != null) {
       sql = MarketWiseSQL.CREATE_PORTFOLIO;
-      params = new Object[] {portfolio.getUserId(), portfolio.getCashBalance()};
+      params = new Object[] { portfolio.getUserId(), portfolio.getCashBalance() };
     }
     else {
       sql = MarketWiseSQL.CREATE_PORTFOLIO_NO_CASH;
-      params = new Object[] {portfolio.getUserId()};
+      params = new Object[] { portfolio.getUserId() };
     }
 
     return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> {
       portfolio.setId(rs.getLong("id"));
-      portfolio.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+      portfolio.setCreateDate(rs.getTimestamp("create_date").toInstant());
       portfolio.setCashBalance(rs.getBigDecimal("cash_balance"));
       return portfolio;
     });

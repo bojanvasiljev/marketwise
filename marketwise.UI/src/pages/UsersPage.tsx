@@ -6,7 +6,7 @@ type User = {
   username: string;
   email: string;
   passwordHash: string;
-  createdAt: string;
+  createDate: string;
 };
 
 const UsersPage = () => {
@@ -60,7 +60,7 @@ const UsersPage = () => {
                 <td className="px-6 py-4 border-b">{user.id}</td>
                 <td className="px-6 py-4 border-b">{user.username}</td>
                 <td className="px-6 py-4 border-b">{user.email}</td>
-                <td className="px-6 py-4 border-b">{new Date(user.createdAt).toLocaleString()}</td>
+                <td className="px-6 py-4 border-b">{new Date(user.createDate).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>

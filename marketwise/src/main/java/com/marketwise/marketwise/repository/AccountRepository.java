@@ -22,13 +22,13 @@ public class AccountRepository {
   private final RowMapper<Account> rowMapper = new RowMapper<>() {
     @Override
     public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
-      Account a = new Account();
-      a.setId(rs.getLong("id"));
-      a.setUserId(rs.getLong("user_id"));
-      a.setSeasonId(rs.getLong("season_id"));
-      a.setCashBalance(rs.getBigDecimal("cash_balance"));
-      a.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
-      return a;
+      Account account = new Account();
+      account.setId(rs.getLong("id"));
+      account.setUserId(rs.getLong("user_id"));
+      account.setSeasonId(rs.getLong("season_id"));
+      account.setCashBalance(rs.getBigDecimal("cash_balance"));
+      account.setCreateDate(rs.getTimestamp("create_date").toInstant());
+      return account;
     }
   };
 
@@ -45,7 +45,7 @@ public class AccountRepository {
         new Object[] { account.getUserId(), account.getSeasonId(), account.getCashBalance() },
         (rs, rowNum) -> {
           account.setId(rs.getLong("id"));
-          account.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+          account.setCreateDate(rs.getTimestamp("create_date").toInstant());
           return account;
         });
   }

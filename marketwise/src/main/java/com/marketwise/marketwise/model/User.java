@@ -1,7 +1,6 @@
 package com.marketwise.marketwise.model;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 public class User {
 
@@ -9,16 +8,16 @@ public class User {
   private String username;
   private String email;
   private String passwordHash;
-  private Instant createdAt;
+  private Instant createDate;
 
   public User() {}
 
-  public User(Long id, String username, String email, String passwordHash, Instant createdAt) {
+  public User(Long id, String username, String email, String passwordHash, Instant createDate) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.passwordHash = passwordHash;
-    this.createdAt = createdAt;
+    this.createDate = createDate;
   }
 
   public Long getId() {
@@ -53,11 +52,11 @@ public class User {
     this.passwordHash = passwordHash;
   }
 
-  public Instant getCreatedAt() {
-    return createdAt;
+  public Instant getCreateDate() {
+    return createDate;
   }
 
-  public void setCreatedAt(Instant createdAt) {
-    this.createdAt = createdAt;
+  public void setCreateDate(Instant createDate) {
+    this.createDate = createDate;
   }
 }

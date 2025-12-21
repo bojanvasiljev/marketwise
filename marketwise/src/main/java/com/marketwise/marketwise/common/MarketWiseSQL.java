@@ -7,16 +7,16 @@ public class MarketWiseSQL {
 
   public static String GET_ACCOUNT_BY_USER_AND_SEASON = "SELECT * FROM accounts WHERE user_id = ? AND season_id = ?";
 
-  public static String CREATE_ACCOUNT = "INSERT INTO accounts (user_id, season_id, cash_balance, created_at) VALUES (?, ?, ?, NOW()) RETURNING id, created_at";
+  public static String CREATE_ACCOUNT = "INSERT INTO accounts (user_id, season_id, cash_balance, create_date) VALUES (?, ?, ?, NOW()) RETURNING id, create_date";
 
   public static String UPDATE_CASH_BALANCE = "UPDATE accounts SET cash_balance = ? WHERE id = ?";
 
   // User SQL queries
-  public static String GET_USER_BY_ID = "SELECT id, username, email, password_hash, created_at FROM users WHERE id = ?";
+  public static String GET_USER_BY_ID = "SELECT id, username, email, password_hash, create_date FROM users WHERE id = ?";
 
-  public static String GET_USERS = "SELECT id, username, email, password_hash, created_at FROM users";
+  public static String GET_USERS = "SELECT id, username, email, password_hash, create_date FROM users";
 
-  public static String CREATE_USER = "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?) RETURNING id, created_at";
+  public static String CREATE_USER = "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?) RETURNING id, create_date";
 
   public static String UPDATE_USER = "UPDATE users SET email = ?, password_hash = ? WHERE id = ?";
 
@@ -27,7 +27,7 @@ public class MarketWiseSQL {
 
   public static String GET_SEASONS = "SELECT * FROM seasons ORDER BY start_date DESC";
 
-  public static String CREATE_SEASON = "INSERT INTO seasons (name, start_date, end_date, starting_cash) VALUES (?, ?, ?, ?) RETURNING id, created_at";
+  public static String CREATE_SEASON = "INSERT INTO seasons (name, start_date, end_date, starting_cash) VALUES (?, ?, ?, ?) RETURNING id, create_date";
 
   public static String UPDATE_SEASON = "UPDATE seasons SET name = ?, start_date = ?, end_date = ? WHERE id = ?";
 
@@ -36,16 +36,16 @@ public class MarketWiseSQL {
   // Trade SQL queries
   public static String GET_TRADES_BY_PORTFOLIO = "SELECT * FROM trades WHERE portfolio_id = ?";
 
-  public static String CREATE_TRADE = "INSERT INTO trades (portfolio_id, stock_symbol, shares, price, trade_type, created_at) VALUES (?, ?, ?, ?, ?, NOW()) RETURNING id, created_at";
+  public static String CREATE_TRADE = "INSERT INTO trades (portfolio_id, stock_symbol, shares, price, trade_type, create_date) VALUES (?, ?, ?, ?, ?, NOW()) RETURNING id, create_date";
 
   // Portfolio SQL queries
   public static String GET_PORTFOLIO_BY_USER = "SELECT * FROM portfolios WHERE user_id = ?";
 
   public static String GET_PORTFOLIO_BY_PORTFOLIO = "SELECT * FROM portfolios WHERE id = ?";
 
-  public static String CREATE_PORTFOLIO = "INSERT INTO portfolios (user_id, cash_balance, created_at) VALUES (?, ?, NOW()) RETURNING id, created_at, cash_balance";
+  public static String CREATE_PORTFOLIO = "INSERT INTO portfolios (user_id, cash_balance, create_date) VALUES (?, ?, NOW()) RETURNING id, create_date, cash_balance";
 
-  public static String CREATE_PORTFOLIO_NO_CASH = "INSERT INTO portfolios (user_id, created_at) VALUES (?, NOW()) RETURNING id, created_at, cash_balance";
+  public static String CREATE_PORTFOLIO_NO_CASH = "INSERT INTO portfolios (user_id, create_date) VALUES (?, NOW()) RETURNING id, create_date, cash_balance";
 
   public static String UPDATE_PORTFOLIO_CASH_BALANCE = "UPDATE portfolios SET cash_balance = ? WHERE id = ?";
 

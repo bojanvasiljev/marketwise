@@ -48,8 +48,7 @@ public class TradeService {
           portfolioPositionRepository.getPortfolioPositionsForPortfolio(portfolio.getId()).stream()
               .filter(p -> p.getStockSymbol().equals(trade.getStockSymbol()))
               .findFirst()
-              .orElse(new PortfolioPosition(null, portfolio.getId(), trade.getStockSymbol(),
-                  BigDecimal.ZERO, BigDecimal.ZERO));
+              .orElse(new PortfolioPosition(null, portfolio.getId(), trade.getStockSymbol(), BigDecimal.ZERO, BigDecimal.ZERO));
 
       BigDecimal newShares = portfolioPosition.getShares().add(trade.getShares());
       BigDecimal newAvgPrice = portfolioPosition.getShares().multiply(portfolioPosition.getAveragePrice()).add(totalValue).divide(newShares, 4, BigDecimal.ROUND_HALF_UP);
